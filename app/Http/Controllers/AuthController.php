@@ -28,6 +28,7 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);
+        return $user;
 
         return response([
             'message' => 'User was registered',

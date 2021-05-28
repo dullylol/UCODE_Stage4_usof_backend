@@ -120,7 +120,6 @@ class CommentsController extends Controller
             return response(['message' => 'Comment does not exist'], 404);
         }
         $likes = Like::all();
-
         foreach ($likes as $like) {
             if ($like['user_id'] == $user['id'] &&
                 $like['comment_id'] == $id
@@ -133,7 +132,7 @@ class CommentsController extends Controller
         $newLike = Like::create(['type' => 'like', 'comment_id' => $id, 'user_id' => $user['id']]);
 
         $likedUser = User::find($comment['user_id']);
-        $likedUser->update(['rating' => $$likedUser['rating'] + 1]);
+        $likedUser->update(['rating' => $likedUser['rating'] + 1]);
 
         return $newLike;
     }
@@ -163,7 +162,7 @@ class CommentsController extends Controller
         $newDislike = Like::create(['type' => 'dislike', 'comment_id' => $id, 'user_id' => $user['id']]);
         
         $dislikedUser = User::find($comment['user_id']);
-        $dislikedUser->update(['rating' => $$dislikedUser['rating'] - 1]);
+        $dislikedUser->update(['rating' => $dislikedUser['rating'] - 1]);
 
         return $newDislike;
     }

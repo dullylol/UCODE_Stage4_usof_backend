@@ -26,11 +26,10 @@ class PostsController extends Controller
         } catch (Exception $exception) {
             return response(['message' => $exception->getMessage()], 404);
         }
-
         $post = Post::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-            'category_id' => $request->input('category_id'),
+            'category_id' => (Category::where('title', $request->input('category'))->first())['id'],
             'user_id' => $user['id'],
         ]);
         
@@ -162,7 +161,7 @@ class PostsController extends Controller
         $newLike = Like::create(['type' => 'like', 'post_id' => $id, 'user_id' => $user['id']]);
 
         $likedUser = User::find($post['user_id']);
-        $likedUser->update(['rating' => $$likedUser['rating'] + 2]);
+        $likedUser->update(['rating' => $likedUser['rating'] + 2]);
 
         return $newLike;
     }
@@ -192,7 +191,7 @@ class PostsController extends Controller
         $newDislike = Like::create(['type' => 'dislike', 'post_id' => $id, 'user_id' => $user['id']]);
 
         $dislikedUser = User::find($post['user_id']);
-        $dislikedUser->update(['rating' => $$dislikedUser['rating'] - 2]);
+        $dislikedUser->update(['rating' => $dislikedUser['rating'] - 2]);
 
         return $newDislike;
     }

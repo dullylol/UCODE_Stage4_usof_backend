@@ -14,6 +14,8 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', 'App\Http\Controllers\AuthController@login');
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     Route::get('/refresh', 'App\Http\Controllers\AuthController@refresh');
+    Route::post('/password-reset', 'App\Http\Controllers\UsersController@sendToEmail');
+    Route::post('/password-reset/{confirm_token}', 'App\Http\Controllers\UsersController@resetPasswordWithToken');
 });
 
 // Users +
@@ -21,11 +23,10 @@ Route::get('users', 'App\Http\Controllers\UsersController@index');
 Route::post('users', 'App\Http\Controllers\UsersController@store');
 Route::prefix('users')->group(function () {
     Route::get('/{user_id}', 'App\Http\Controllers\UsersController@show');
+    Route::get('/{user_id}/posts', 'App\Http\Controllers\UsersController@posts');
     Route::patch('/{user_id}', 'App\Http\Controllers\UsersController@update');
     Route::delete('/{user_id}', 'App\Http\Controllers\UsersController@destroy');
     Route::post('/avatar', 'App\Http\Controllers\UsersController@uploadAvatar');
-    Route::post('/{user_id}/password-reset', 'App\Http\Controllers\UsersController@sendToEmail');
-    Route::post('/{user_id}/password-reset/{confirm_token}', 'App\Http\Controllers\UsersController@resetPasswordWithToken');
 });
 
 // Posts +

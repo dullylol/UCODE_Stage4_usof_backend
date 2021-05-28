@@ -6,6 +6,7 @@ use App\Http\Requests\AvatarRequest;
 use App\Http\Requests\MailRequest;
 use App\Models\PasswordResets;
 use App\Models\User;
+use App\Models\Post;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -173,5 +174,11 @@ class UsersController extends Controller
         return response([
             'message' => 'Password reseted',
         ]);
+    }
+
+    public function posts($id) {
+        $posts = Post::all()->where('user_id', $id);
+
+        return $posts;
     }
 }
